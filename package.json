@@ -1,0 +1,9 @@
+{
+  "name": "Known Event Queue",
+  "version": "0.1",
+  "devDependencies": {},
+  "dependencies": {
+    "mysql": "^2.16.0",
+    "request": "^2.88.0"
+  }
+}
