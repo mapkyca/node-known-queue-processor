@@ -1,6 +1,7 @@
 "use strict";
 
 var mysql = require('mysql');
+var pjson = require('./package.json');
 
 module.exports = class Known {
 
@@ -11,10 +12,10 @@ module.exports = class Known {
     getConfig(callback) {
 
 	var con = mysql.createConnection({
-	    host: "withknown",
-	    user: "known",
-	    password: "12345",
-	    database: 'known',
+	    host: pjson.db_host,
+	    user: pjson.db_user,
+	    password: pjson.db_pass,
+	    database: pjson.db,
 	});
 
 	con.connect(function (err) {

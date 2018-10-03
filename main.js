@@ -8,6 +8,9 @@ console.log("Conecting to http://" + process.env.KNOWN_DOMAIN);
 
 var Service = require("./Service.js");
 var ServiceCaller = new Service();
+const { execSync } = require('child_process');
+
+var pjson = require('./package.json');
 
 // Main loop
 setInterval(() => {
@@ -32,8 +35,13 @@ setInterval(() => {
 		console.error("EXCEPTION: " + body.exception.message);
 		return;
 	    }
-	    console.log(body);
+	    
+	    for (var index in body.queue) {
+		console.log("Dispatching event: " + body.queue[index]);
+		
+		execSync(pjson.knownpath + 'known.php event-queue-manage default dispatch ' + body.queue[index]);
+	    }
 	}); 
     });
     
-}, 1000);
+}, 5000);
