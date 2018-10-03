@@ -3,19 +3,26 @@
 
 var Known = require("./Known.js");
 
+const crypto = require('crypto');
+
+
 module.exports = class Service {
         
     constructor() {
 	this.known = new Known();
     }
         
-    generateToken(endpoint) {
+    call(endpoint, callback) {
 	
-	endpoint = endpoint.replace('https://', '');
-	endpoint = endpoint.replace('http://', '');
+	var url = endpoint.url.replace('https://', '');
+	url = url.replace('http://', '');
 	
-	var config = this.known.getConfig();
-	
+	this.known.getConfig(function(config) {
+	    var hmac = crypto.createHmac('sha256', config.site_secret);
+	    hmac.update(url);
+	    	    
+	    callback(endpoint, hmac.digest('hex'));
+	});
     }
     
 };

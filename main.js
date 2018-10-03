@@ -12,23 +12,28 @@ var ServiceCaller = new Service();
 // Main loop
 setInterval(() => {
     
-    request({
-	url: 'http://' + process.env.KNOWN_DOMAIN + '/service/queue/list/?_t=json',
+    var listquery = {
+	url: 'http://' + process.env.KNOWN_DOMAIN + '/service/queue/list/',
 	method: 'GET',
 	json: true,
-	headers: {
-	    'X-KNOWN-SERVICE-SIGNATURE': ServiceCaller.generateToken('http://' + process.env.KNOWN_DOMAIN + '/service/queue/list/')
-	}
-    }, (err, res, body) => {
-	if (err) { 
-	    return console.error(err); 
-	}
-	if (('' + res.statusCode).match(/^5\d\d$/)) {
-	    console.error("EXCEPTION: " + body.exception.message);
-	    return;
-	}
-	console.log(body.title);
-    }); 
+    };
     
+    ServiceCaller.call(listquery, function(call, hash) {
+	
+	call.headers = {
+	    'X-KNOWN-SERVICE-SIGNATURE': hash
+	}
+	
+	request(call, (err, res, body) => {
+	    if (err) { 
+		return console.error(err); 
+	    }
+	    if (('' + res.statusCode).match(/^5\d\d$/)) {
+		console.error("EXCEPTION: " + body.exception.message);
+		return;
+	    }
+	    console.log(body);
+	}); 
+    });
     
 }, 1000);
