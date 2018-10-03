@@ -12,10 +12,20 @@ module.exports = class Known {
 
 	var con = mysql.createConnection({
 	    host: "localhost",
-	    user: "yourusername",
-	    password: "yourpassword"
+	    user: "known",
+	    password: "12345",
+	    database: 'known',
 	});
 
+	con.connect(function (err) {
+	    if (err)
+		throw err;
+	    con.query("SELECT * FROM config order by created desc limit 1", function (err, result, fields) {
+		if (err)
+		    throw err;
+		return result[0].contents;
+	    });
+	});
     }
 
 }

@@ -17,7 +17,7 @@ setInterval(() => {
 	method: 'GET',
 	json: true,
 	headers: {
-	    'X-KNOWN-SERVICE-SIGNATURE': ''
+	    'X-KNOWN-SERVICE-SIGNATURE': ServiceCaller.generateToken('http://' + process.env.KNOWN_DOMAIN + '/service/queue/list/')
 	}
     }, (err, res, body) => {
 	if (err) { 
