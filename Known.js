@@ -11,7 +11,7 @@ module.exports = class Known {
     getConfig() {
 
 	var con = mysql.createConnection({
-	    host: "localhost",
+	    host: "withknown",
 	    user: "known",
 	    password: "12345",
 	    database: 'known',
@@ -23,7 +23,8 @@ module.exports = class Known {
 	    con.query("SELECT * FROM config order by created desc limit 1", function (err, result, fields) {
 		if (err)
 		    throw err;
-		return result[0].contents;
+		
+		return JSON.parse(result[0].contents);
 	    });
 	});
     }
