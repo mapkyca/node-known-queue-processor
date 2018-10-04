@@ -7,7 +7,7 @@
     "request": "^2.88.0"
   },
   
-  "knownpath": "~/Workingdirectory/idno/",
+  "knownpath": "~/Known/",
   "db_host": "withknown",
   "db_user": "known",
   "db_pass": "12345",
